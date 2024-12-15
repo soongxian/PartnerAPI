@@ -128,7 +128,7 @@ namespace PartnerAPI.Controllers
             }
         }
 
-        private static bool ProcessPartnerTransaction(Partner partner, out long TotalAmount)
+        public static bool ProcessPartnerTransaction(Partner partner, out long TotalAmount)
         {
             TotalAmount = 0;
 
@@ -203,7 +203,7 @@ namespace PartnerAPI.Controllers
             }
         }
 
-        public static string GenerateSHA254Signature(string Timestamp, string PartnerKey, string PartnerRefNo, long TotalAmount, string EncodedPassword)
+        private static string GenerateSHA254Signature(string Timestamp, string PartnerKey, string PartnerRefNo, long TotalAmount, string EncodedPassword)
         {
             string formattedTimestring = FormatTimestampForSignature(Timestamp);
             string SignatureString = formattedTimestring + PartnerKey + PartnerRefNo + TotalAmount + EncodedPassword;
@@ -214,7 +214,7 @@ namespace PartnerAPI.Controllers
             }
         }
 
-        private static long CalculateTotalDiscount(long TotalAmount)
+        public static long CalculateTotalDiscount(long TotalAmount)
         {
             long TotalDiscount = 0;
 
@@ -249,11 +249,10 @@ namespace PartnerAPI.Controllers
                         isPrime = false;
                         break;
                     }
-
-                    if (isPrime && TotalAmount > 500)
-                    {
-                        TotalDiscount += (long)(TotalAmount * 0.08);
-                    }
+                }
+                if (isPrime && TotalAmount > 500)
+                {
+                    TotalDiscount += (long)(TotalAmount * 0.08);
                 }
             }
 
